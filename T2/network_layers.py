@@ -23,10 +23,11 @@ class FCLayer(BaseLayer):
 
     def backward(self, output_gradient, learning_rate):
         input_error = np.dot(output_gradient, self.weights.T)
-        weights_error = np.dot(self.input.T, output_gradient)
+        dWeights = np.dot(self.input.T, output_gradient)
+        dBias = np.sum(output_gradient, axis=0).reshape((1, -1))
 
-        self.weights -= learning_rate * weights_error
-        self.bias -= learning_rate * output_gradient
+        self.weights -= learning_rate * dWeights
+        self.bias -= learning_rate * dBias
 
         return input_error
 

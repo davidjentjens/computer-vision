@@ -17,9 +17,16 @@ class Network:
 
     def fit(self, x_train, y_train, epochs=10, mini_batch=1000, learning_rate=0.1):
         error_list = []
+        x_batches = np.array( [x_train[i * mini_batch:(i + 1) * mini_batch] for i in range((len(x_train) + mini_batch - 1) // mini_batch )] )
+        y_batches = np.array( [y_train[i * mini_batch:(i + 1) * mini_batch] for i in range((len(y_train) + mini_batch - 1) // mini_batch )] )
+        
+        print(x_train.shape)
+        print(x_batches.shape)
+
         for epoch in range(epochs):
             error = 0
-            for x, y in zip(x_train, y_train):
+            for x, y in zip(x_batches, y_batches):
+                print(x.shape)
                 # Forward propagation
                 output = x
                 for layer in self.layers:
